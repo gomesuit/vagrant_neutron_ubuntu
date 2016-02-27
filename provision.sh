@@ -73,7 +73,7 @@ ovs-vsctl show
 # ip netns exec qrouter1 iptables -t nat -nL
 
 ## default GW
-# ip netns exec qvm1 route add default gw 10.0.0.1
+# ip netns exec qvm1 route add default gw 10.0.0.1 dev vm-veth1
 
 ## connect out interface
 # ovs-vsctl add-port br-ex eth0
@@ -89,7 +89,7 @@ ovs-vsctl show
 # ifconfig eth0 0.0.0.0
 # ifconfig br-ex 10.0.2.15/24
 # route add default gw 10.0.2.2
-# ip netns exec qrouter1 route add default gw 10.0.2.2
+# ip netns exec qrouter1 route add default gw 10.0.2.2 dev qg-veth1
 
 ## ip netns exec qrouter1 ip route delete default
 
@@ -136,7 +136,7 @@ ovs-vsctl show
 # ip netns exec qrouter1 ifconfig qg-veth1 10.0.2.20/21
 
 ## setting default gw
-# ip netns exec qrouter1 route add default gw 10.0.2.2
+# ip netns exec qrouter1 route add default gw 10.0.2.2 dev qg-veth1
 
 ## check
 # ip netns exec qrouter1 ping 8.8.8.8
@@ -173,6 +173,14 @@ ovs-vsctl show
 # ovs-vsctl add-port br-int qr-peer1
 # ovs-vsctl add-port br-int vm-peer1
 
+
+
+# ip netns exec qrouter1 route del -net 10.0.0.0/21 dev qg-veth1
+# ip netns exec qrouter1 route add -net 10.0.2.0/24 dev qg-veth1
+# ip netns exec qvm1 route add default gw 10.0.0.1 dev vm-veth1
+
+## ip_forward
+# ip netns exec qrouter1 sysctl net.ipv4.ip_forward=1
 
 ## check
 # ip netns exec qvm1 ping 10.0.0.1
