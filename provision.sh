@@ -185,3 +185,30 @@ ovs-vsctl show
 ## check
 # ip netns exec qvm1 ping 10.0.0.1
 # ip netns exec qrouter1 ping 10.0.0.3
+
+## stting alias ip
+# ip netns exec qrouter1 ip addr add 10.0.2.21/21 dev qg-veth1
+
+## state up
+# ip link set qg-peer1 up
+
+
+
+
+
+## state up
+# ip netns exec qrouter1 ifconfig lo up
+# ip netns exec qvm1 ifconfig lo up
+
+## NAT
+# ip netns exec qrouter1 iptables -t nat -A POSTROUTING -s 10.0.0.3 -j SNAT --to 10.0.2.21
+# ip netns exec qrouter1 iptables -t nat -A PREROUTING -d 10.0.2.21 -j DNAT --to 10.0.0.3
+# ip netns exec qrouter1 iptables -t nat -nL
+
+## check
+# ip netns exec qvm1 ping 8.8.8.8
+# ip netns exec qrouter1 ping 8.8.8.8
+
+
+
+
