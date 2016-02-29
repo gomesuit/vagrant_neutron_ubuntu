@@ -109,15 +109,15 @@ neutron router-interface-add router1 subnet1
 neutron port-create private --device-id=vm1 --binding:host_id=`hostname` --tenant-id 1
 
 ip link add tapb002cdcc-42 type veth peer name vnet0
-ifconfig tapb002cdcc-42 hw ether fa:16:3e:e4:2e:17
+ifconfig tapb002cdcc-42 hw ether fa:16:3e:7b:ff:d3
 ifconfig tapb002cdcc-42 up
 ovs-vsctl add-port br-int tapb002cdcc-42
-ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=13c9a6f7-edf5-4718-9a70-997198c63a34
-ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:e4:2e:17
+ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=83f3fce5-3110-4a11-810b-8e27d682e3cd
+ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:7b:ff:d3
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-status=active
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:vm-uuid=vm1
 
-neutron port-show 13c9a6f7-edf5-4718-9a70-997198c63a34
+neutron port-show 83f3fce5-3110-4a11-810b-8e27d682e3cd
 
 
 
