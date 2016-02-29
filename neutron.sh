@@ -56,7 +56,7 @@ root_helper = sudo
 EOF
 
 
-cat << EOF > /etc/neutron/ml2.conf
+cat << EOF > /etc/neutron/plugins/ml2/ml2_conf.ini
 [ml2]
 type_drivers = local,flat,vlan,gre,vxlan
 mechanism_drivers = openvswitch,linuxbridge
@@ -109,15 +109,15 @@ neutron router-interface-add router1 subnet1
 neutron port-create private --device-id=vm1 --binding:host_id=`hostname` --tenant-id 1
 
 ip link add tapb002cdcc-42 type veth peer name vnet0
-ifconfig tapb002cdcc-42 hw ether fa:16:3e:7a:28:d2
+ifconfig tapb002cdcc-42 hw ether fa:16:3e:e4:2e:17
 ifconfig tapb002cdcc-42 up
 ovs-vsctl add-port br-int tapb002cdcc-42
-ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=021cd009-fbff-4900-94d6-f340f2c6628b
-ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:7a:28:d2
+ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=13c9a6f7-edf5-4718-9a70-997198c63a34
+ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:e4:2e:17
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-status=active
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:vm-uuid=vm1
 
-neutron port-show 4c62270b-45d1-43bf-8b84-865d7b9f6b52
+neutron port-show 13c9a6f7-edf5-4718-9a70-997198c63a34
 
 
 
