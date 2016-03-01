@@ -20,7 +20,7 @@
 #apt-get install -y mysql-server-5.6
 
 
-apt-get -y install neutron-server neutron-plugin-ml2 neutron-l3-agent neutron-dhcp-agent neutron-plugin-openvswitch-agent
+
 apt-get -y install python-mysqldb mysql-server
 apt-get -y install rabbitmq-server
 #service rabbitmq-server start
@@ -29,9 +29,9 @@ rabbitmqctl change_password guest password
 mysql -u root -proot -e "create database neutron_ml2"
 mysql -u root -proot -e "set password = password('password')"
 
-
 # neutron ALL=(ALL) NOPASSWD: ALL
 
+apt-get -y install neutron-server neutron-plugin-ml2 neutron-l3-agent neutron-dhcp-agent neutron-plugin-openvswitch-agent
 
 cat << EOF > /etc/neutron/neutron.conf
 [DEFAULT]
@@ -52,6 +52,7 @@ notification_driver = neutron.openstack.common.notifier.rpc_notifier
 [agent]
 root_helper = sudo
 [database]
+connection = mysql://root:password@localhost/neutron_ml2?charset=utf8
 [service_providers]
 EOF
 
@@ -109,15 +110,15 @@ neutron router-interface-add router1 subnet1
 neutron port-create private --device-id=vm1 --binding:host_id=`hostname` --tenant-id 1
 
 ip link add tapb002cdcc-42 type veth peer name vnet0
-ifconfig tapb002cdcc-42 hw ether fa:16:3e:7b:ff:d3
+ifconfig tapb002cdcc-42 hw ether fa:16:3e:1d:5d:41
 ifconfig tapb002cdcc-42 up
 ovs-vsctl add-port br-int tapb002cdcc-42
-ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=83f3fce5-3110-4a11-810b-8e27d682e3cd
-ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:7b:ff:d3
+ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=14a6c47d-264d-47b8-a2f5-aa5e03a93ed4
+ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:1d:5d:41
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-status=active
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:vm-uuid=vm1
 
-neutron port-show 83f3fce5-3110-4a11-810b-8e27d682e3cd
+neutron port-show 14a6c47d-264d-47b8-a2f5-aa5e03a93ed4
 
 
 
