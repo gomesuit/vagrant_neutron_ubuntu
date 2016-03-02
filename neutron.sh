@@ -82,6 +82,7 @@ service neutron-server restart
 service neutron-l3-agent restart
 service neutron-dhcp-agent restart
 service neutron-plugin-openvswitch-agent restart
+service neutron-metadata-agent restart
 
 ovs-vsctl add-br br-ex
 # ovs-vsctl add-br br-int
@@ -110,15 +111,15 @@ neutron router-interface-add router1 subnet1
 neutron port-create private --device-id=vm1 --binding:host_id=`hostname` --tenant-id 1
 
 ip link add tapb002cdcc-42 type veth peer name vnet0
-ifconfig tapb002cdcc-42 hw ether fa:16:3e:1d:5d:41
+ifconfig tapb002cdcc-42 hw ether fa:16:3e:aa:37:5a
 ifconfig tapb002cdcc-42 up
 ovs-vsctl add-port br-int tapb002cdcc-42
-ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=14a6c47d-264d-47b8-a2f5-aa5e03a93ed4
-ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:1d:5d:41
+ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=6d3f9f75-2bf3-4cb0-90bf-f51b98f33b97
+ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:aa:37:5a
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-status=active
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:vm-uuid=vm1
 
-neutron port-show 14a6c47d-264d-47b8-a2f5-aa5e03a93ed4
+neutron port-show 6d3f9f75-2bf3-4cb0-90bf-f51b98f33b97
 
 
 
