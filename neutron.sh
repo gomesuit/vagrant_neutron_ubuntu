@@ -26,9 +26,11 @@ apt-get -y install rabbitmq-server
 #service rabbitmq-server start
 rabbitmqctl change_password guest password
 
-mysql -u root -proot -e "create database neutron_ml2"
+mysql -u root -proot -e "create database neutron_ml2 character set utf8;"
+#mysql -u root -proot -e "grant all on neutron_ml2.* to 'neutron'@'%';"
 mysql -u root -proot -e "set password = password('password')"
 
+echo 'neutron ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 # neutron ALL=(ALL) NOPASSWD: ALL
 
 apt-get -y install neutron-server neutron-plugin-ml2 neutron-l3-agent neutron-dhcp-agent neutron-plugin-openvswitch-agent
@@ -111,15 +113,15 @@ neutron router-interface-add router1 subnet1
 neutron port-create private --device-id=vm1 --binding:host_id=`hostname` --tenant-id 1
 
 ip link add tapb002cdcc-42 type veth peer name vnet0
-ifconfig tapb002cdcc-42 hw ether fa:16:3e:aa:37:5a
+ifconfig tapb002cdcc-42 hw ether fa:16:3e:bc:2b:69
 ifconfig tapb002cdcc-42 up
 ovs-vsctl add-port br-int tapb002cdcc-42
-ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=6d3f9f75-2bf3-4cb0-90bf-f51b98f33b97
-ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:aa:37:5a
+ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-id=c363ac86-9d43-4067-91a1-a82466fc13ce
+ovs-vsctl set Interface tapb002cdcc-42 external_ids:attached-mac=fa:16:3e:bc:2b:69
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:iface-status=active
 ovs-vsctl set Interface tapb002cdcc-42 external-ids:vm-uuid=vm1
 
-neutron port-show 6d3f9f75-2bf3-4cb0-90bf-f51b98f33b97
+neutron port-show c363ac86-9d43-4067-91a1-a82466fc13ce
 
 
 
